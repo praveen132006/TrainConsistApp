@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.*;
 
 public class Trainconsistapp {
 
@@ -15,7 +16,7 @@ public class Trainconsistapp {
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("UC7 - Sort Bogies by Capacity\n");
+        System.out.println("UC8 - Filter Bogies by Capacity\n");
 
         List<Bogie> bogies = new ArrayList<>();
 
@@ -23,15 +24,17 @@ public class Trainconsistapp {
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
 
-        System.out.println("Before Sorting:");
+        System.out.println("All Bogies:");
         for (Bogie b : bogies) {
             System.out.println(b.name + " -> " + b.capacity);
         }
 
-        bogies.sort((a, b) -> a.capacity - b.capacity);
+        List<Bogie> filtered = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-        System.out.println("\nAfter Sorting (By Capacity):");
-        for (Bogie b : bogies) {
+        System.out.println("\nFiltered Bogies (capacity > 60):");
+        for (Bogie b : filtered) {
             System.out.println(b.name + " -> " + b.capacity);
         }
     }
