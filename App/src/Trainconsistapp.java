@@ -1,8 +1,6 @@
 import java.util.*;
 import java.util.stream.*;
-
 public class Trainconsistapp {
-
     static class Bogie {
         String name;
         int capacity;
