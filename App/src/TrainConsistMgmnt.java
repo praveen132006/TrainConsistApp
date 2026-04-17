@@ -1,65 +1,40 @@
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
 public class TrainConsistMgmnt {
 
-    static class CargoSafetyException extends RuntimeException {
-        public CargoSafetyException(String message) {
-            super(message);
-        }
-    }
+    // Linear Search Method
+    static boolean linearSearch(String[] bogieIds, String searchId) {
 
-    static class GoodsBogie {
-        String shape;
-        String cargo;
-
-        GoodsBogie(String shape) {
-            this.shape = shape;
-        }
-
-        void assignCargo(String cargo) {
-            try {
-                if (cargo.equalsIgnoreCase("Petroleum") &&
-                        !shape.equalsIgnoreCase("Cylindrical")) {
-
-                    throw new CargoSafetyException(
-                            "Petroleum can only be transported in Cylindrical bogie"
-                    );
-                }
-
-                this.cargo = cargo;
-                System.out.println("Cargo Assigned Successfully: " + cargo);
-
-            } catch (CargoSafetyException e) {
-                System.out.println("Error: " + e.getMessage());
-
-            } finally {
-                System.out.println("Validation completed.");
+        for (String id : bogieIds) {
+            if (id.equals(searchId)) {
+                return true;
             }
         }
 
-        void display() {
-            System.out.println("Bogie Shape : " + shape);
-            System.out.println("Cargo       : " + cargo);
-        }
+        return false;
     }
 
     public static void main(String[] args) {
 
-        System.out.println("==============================================");
-        System.out.println(" UC15 - Handle Unsafe Cargo Assignment ");
-        System.out.println("==============================================");
+        System.out.println("==================================================");
+        System.out.println(" UC18 - Search Bogie ID Using Linear Search ");
+        System.out.println("==================================================\n");
 
-        GoodsBogie g1 = new GoodsBogie("Cylindrical");
-        g1.assignCargo("Petroleum");
-        g1.display();
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println();
+        String searchId = "BG309";
 
-        GoodsBogie g2 = new GoodsBogie("Rectangular");
-        g2.assignCargo("Petroleum");
-        g2.display();
+        System.out.println("Available Bogie IDs:");
+        for (String id : bogieIds) {
+            System.out.print(id + " ");
+        }
 
-        System.out.println("\nProgram continues safely...");
+        boolean found = linearSearch(bogieIds, searchId);
+
+        if (found) {
+            System.out.println("\n\nBogie ID " + searchId + " found.");
+        } else {
+            System.out.println("\n\nBogie ID " + searchId + " not found.");
+        }
+
+        System.out.println("\nProgram continues...");
     }
 }
