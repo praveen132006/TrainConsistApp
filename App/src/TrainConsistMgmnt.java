@@ -1,37 +1,65 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 public class TrainConsistMgmnt {
 
+    static class CargoSafetyException extends RuntimeException {
+        public CargoSafetyException(String message) {
+            super(message);
+        }
+    }
+
+    static class GoodsBogie {
+        String shape;
+        String cargo;
+
+        GoodsBogie(String shape) {
+            this.shape = shape;
+        }
+
+        void assignCargo(String cargo) {
+            try {
+                if (cargo.equalsIgnoreCase("Petroleum") &&
+                        !shape.equalsIgnoreCase("Cylindrical")) {
+
+                    throw new CargoSafetyException(
+                            "Petroleum can only be transported in Cylindrical bogie"
+                    );
+                }
+
+                this.cargo = cargo;
+                System.out.println("Cargo Assigned Successfully: " + cargo);
+
+            } catch (CargoSafetyException e) {
+                System.out.println("Error: " + e.getMessage());
+
+            } finally {
+                System.out.println("Validation completed.");
+            }
+        }
+
+        void display() {
+            System.out.println("Bogie Shape : " + shape);
+            System.out.println("Cargo       : " + cargo);
+        }
+    }
+
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        System.out.println("==============================================");
+        System.out.println(" UC15 - Handle Unsafe Cargo Assignment ");
+        System.out.println("==============================================");
 
-        String trainId = sc.nextLine();
-        String cargoCode = sc.nextLine();
+        GoodsBogie g1 = new GoodsBogie("Cylindrical");
+        g1.assignCargo("Petroleum");
+        g1.display();
 
-        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
-        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+        System.out.println();
 
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+        GoodsBogie g2 = new GoodsBogie("Rectangular");
+        g2.assignCargo("Petroleum");
+        g2.display();
 
-        boolean isTrainValid = trainMatcher.matches();
-        boolean isCargoValid = cargoMatcher.matches();
-
-        if (isTrainValid) {
-            System.out.println("Valid Train ID");
-        } else {
-            System.out.println("Invalid Train ID");
-        }
-
-        if (isCargoValid) {
-            System.out.println("Valid Cargo Code");
-        } else {
-            System.out.println("Invalid Cargo Code");
-        }
-
-        sc.close();
+        System.out.println("\nProgram continues safely...");
     }
 }
